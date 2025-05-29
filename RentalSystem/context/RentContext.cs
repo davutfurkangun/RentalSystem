@@ -14,29 +14,13 @@ namespace RentalSystem.context
         {
             rents.Add(rent);
         }
-        public List<Rent> getList()
+        public void remove(Rent rent)
         {
-            return rents;
-        }
-        public List<Rent> getListUnacceptedRents()
-        {
-            return requestRents;
-        }
-        public Rent getRequestRentById(long id)
-        {
-            return requestRents.FirstOrDefault(x => x.Id == id);
+            requestRents.Remove(rent);
         }
         public void addRequestRent(Rent rent)
         {
             requestRents.Add(rent);
-        }
-        public List<Rent> getListByUserId(long userId)
-        {
-            return rents.Where(x => x.rentByUser.Id == userId).ToList();
-        }
-        public Rent getRentById(long id)
-        {
-            return rents.FirstOrDefault(x => x.Id == id);
         }
         public void showRentList(List<Rent> a)
         {
@@ -54,11 +38,36 @@ namespace RentalSystem.context
                 Console.WriteLine(a[i]);
             }
         }
-        public void remove(Rent rent)
+        public Rent getRequestRentById(long id)
         {
-            requestRents.Remove(rent);
+            return requestRents.FirstOrDefault(x => x.Id == id);
         }
-       
+        public Rent getRentById(long id)
+        {
+            return rents.FirstOrDefault(x => x.Id == id);
+        }
+        public List<Rent> getList()
+        {
+            return rents;
+        }
+        public List<Rent> getListUnacceptedRents()
+        {
+            return requestRents;
+        }
+        public List<Rent> getListByUserId(long userId)
+        {
+            return rents.Where(x => x.rentByUser.Id == userId).ToList();
+        }
+        public List<Rent> getListKullaniciTalepleri(long userId)
+        {
+            return requestRents.Where(x => x.rentByUser.Id == userId && x.OnaylandiMi == false).ToList();
+        }
+        public List<Rent> getListKullaniciIadesiYapılmamıs(long userId)
+        {
+            return rents.Where(x => x.rentByUser.Id == userId && x.İadeEdildiMi == false).ToList();
+        }
+      
+        
 
 
 

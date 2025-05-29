@@ -94,14 +94,6 @@ namespace RentalSystem.business.concrete
             }
 
         }
-        public void showUserList()
-        {
-            _userContext.showUserList();
-        }
-        public void showAdminList()
-        {
-            _userContext.showAdminList();
-        }
         public User adminLogin(string userNameOrEmail, string password)
         {
             User adminlogin = _userContext.getAdminByUsernameOrEmail(userNameOrEmail);
@@ -156,6 +148,14 @@ namespace RentalSystem.business.concrete
         public User getUserById(long id)
         {
             return _userContext.getUserById(id);
+        }
+        public List<User> getUserList()
+        {
+            return _userContext.getUserList();
+        }
+        public List<User> getAdminList()
+        {
+            return _userContext.getAdminList();
         }
     }
 }

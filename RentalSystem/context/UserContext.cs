@@ -52,28 +52,6 @@ namespace RentalSystem.context
         {
             return admins.FirstOrDefault(x => x.Email.Equals(username));
         }
-        public List<User> getUserList()
-        {
-            return users;
-        }
-        public List<User> getAdminList()
-        {
-            return admins;
-        }
-        public void showUserList()
-        {
-            for (int i = 0; i < getUserList().Count; i++)
-            {
-                Console.WriteLine(getUserList()[i]);
-            }
-        }
-        public void showAdminList()
-        {
-            for (int i = 0; i < getAdminList().Count; i++)
-            {
-                Console.WriteLine(getAdminList()[i]);
-            }
-        }
         public User getAdminByUsernameOrEmail(string input)
         {
             return admins.FirstOrDefault(x => x.Username.Equals(input) || x.Email.Equals(input));
@@ -90,6 +68,14 @@ namespace RentalSystem.context
         {
             return users.FirstOrDefault(x => x.Id == id);
         }
-    
+        public List<User> getUserList()
+        {
+            return users;
+        }
+        public List<User> getAdminList()
+        {
+            return admins;
+        }
+
     }
 }

@@ -18,7 +18,7 @@ namespace RentalSystem.entity
 
         public override string ToString()
         {
-            return base.ToString()+$"Name: {Name}, Surname: {Surname}, Username: {Username}, Email: {Email}, Role: {Role}";
+            return base.ToString()+$" Name: {Name}, Surname: {Surname}, Username: {Username}, Email: {Email}, Role: {Role}";
         }
 
     }

@@ -18,9 +18,19 @@ namespace RentalSystem.api
         {
             _userService = new UserServiceImpl(new UserContext());
         }
+
+
         public void save(string name, string surname, string username, string password, string email, Role role)
         {
             _userService.save(name,surname, username, password, email, role);
+        }
+        public void saveAdmin(string adminEmail, string userEmail)
+        {
+            _userService.saveAdmin(adminEmail, userEmail);
+        }
+        public void removeAdmin(string superEmail, string adminEmail)
+        {
+            _userService.removeAdmin(superEmail, adminEmail);
         }
         public User adminLogin(string userNameOrEmail, string password)
         {
@@ -42,25 +52,17 @@ namespace RentalSystem.api
         {
             return _userService.getUserById(id);
         }
-        public void saveAdmin(string adminEmail, string userEmail)
-        {
-            _userService.saveAdmin(adminEmail, userEmail);
-        }
-        public void removeAdmin(string superEmail, string adminEmail)
-        {
-            _userService.removeAdmin(superEmail, adminEmail);
-        }
         public User superLogin(string userNameOrEmail, string password)
         {
            return _userService.superLogin(userNameOrEmail, password);
         }
-        public void showUserList()
+        public List<User> getUserList()
         {
-            _userService.showUserList();
+            return _userService.getUserList();
         }
-        public void showAdminList()
+        public List<User> getAdminList()
         {
-            _userService.showAdminList();
+            return _userService.getAdminList();
         }
     }
 }

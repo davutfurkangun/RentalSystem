@@ -1,16 +1,21 @@
 ﻿using System.Linq;
 using System.Runtime.Intrinsics.X86;
 using RentalSystem.api;
+using RentalSystem.context;
 using RentalSystem.entity;
 using RentalSystem.entity.@enum;
 
 namespace RentalSystem
 {
     internal class Program
-    {
-
+    {  
+        static ClothesController clothesController = new ClothesController();
+        static UserController userController = new UserController();
+        static RentController rentController = new RentController();
         static void Main(string[] args)
         {
+            
+            
             superEkle();
             adminekle();
             kıyafetekle();
@@ -53,7 +58,6 @@ namespace RentalSystem
         {
             Console.WriteLine("Kayıt olmak için bekleyiniz...");
             Console.WriteLine("-----------------");
-            UserController userController = new UserController();
             Console.WriteLine("Adınızı giriniz.");
             string name=Console.ReadLine();
             Console.WriteLine("Soyadınızı giriniz.");
@@ -76,7 +80,6 @@ namespace RentalSystem
                 string input = Console.ReadLine();
                 Console.WriteLine("Şifre: ");
                 string password = Console.ReadLine();
-                UserController userController = new UserController();
                 User user1 = userController.userLogin(input, password);
                 if (user1 != null)
                 {
@@ -86,7 +89,7 @@ namespace RentalSystem
                 else
                 {
                     Console.WriteLine("Giriş başarısız. Tekrar deneyiniz.");
-
+                    return;
                 }
             }
         }
@@ -128,8 +131,7 @@ namespace RentalSystem
                 switch (secim)
                 {
                     case "1":
-                        ClothesController clothesController = new ClothesController();
-                        clothesController.showList();
+                        showList(clothesController.getList());
                         break;
                     case "2":
                         while (true)
@@ -144,17 +146,17 @@ namespace RentalSystem
                             switch (secim2)
                             {
                                 case "1":
-                                    ClothesController clothesController1 = new ClothesController();
-                                    clothesController1.showListByCategory("Elbise"); break;
+                                    showList(clothesController.getListByCategory("Elbise"));
+                                    break;
                                 case "2":
-                                    ClothesController _clothesController = new ClothesController();
-                                    _clothesController.showListByCategory("TakımElbise"); break;
+                                    showList(clothesController.getListByCategory("TakımElbise"));
+                                    break;
                                 case "3":
-                                    ClothesController __clothesController = new ClothesController();
-                                    __clothesController.showListByCategory("Ceket"); break;
+                                    showList(clothesController.getListByCategory("Ceket"));
+                                    break;
                                 case "4":
-                                    ClothesController ___clothesController = new ClothesController();
-                                    ___clothesController.showListByCategory("Gömlek"); break;
+                                    showList(clothesController.getListByCategory("Gömlek"));
+                                    break;
                                 case "5":
                                     return;
                                 default:
@@ -186,9 +188,8 @@ namespace RentalSystem
                 switch (secim) 
                 {
                     case "1":
-                        ClothesController clothesController1 = new ClothesController();
-                        clothesController1.showList();
-                       
+
+                        showList(clothesController.getList());
                         long clothId;
                         while (true)
                         {
@@ -219,22 +220,17 @@ namespace RentalSystem
                                 Console.WriteLine("Geçersiz gün sayısı girdiniz. Lütfen sadece rakam kullanınız.");
                             }
                         }
-                        
-                        RentController rentController = new RentController();
                         rentController.requestRent(id, clothId, kiralamaGun);
                         break;
                     case "2":
-                        RentController _rentController = new RentController();
-                        _rentController.showRequestRentList();
+                        showList(rentController.getListKullaniciTalepleri(id));
                         break;
                     case "3":
-                        RentController rentController1 = new RentController();
-                        rentController1.showListByUserId(id);
+                        showList(rentController.getListByUserId(id));
                         break;
                     case "4":
-                        RentController rentController2 = new RentController();
-                        rentController2.showListByUserId(id);
-                        
+                        showList(rentController.getListKullaniciIadesiYapılmamıs(id));
+                      
                         long returnId;
                         while (true)
                         {
@@ -250,7 +246,7 @@ namespace RentalSystem
                                 Console.WriteLine("Geçersiz ID girdiniz. Lütfen sadece rakam kullanınız.");
                             }
                         }
-                        rentController2.returnRents(returnId);
+                        rentController.returnRents(returnId);
                         break;
                     case "5":
                         return;
@@ -269,7 +265,6 @@ namespace RentalSystem
                 string input = Console.ReadLine();
                 Console.WriteLine("Şifre: ");
                 string password = Console.ReadLine();
-                UserController userController = new UserController();
                 User admin1 = userController.adminLogin(input, password);
                 if (admin1 != null)
                 {
@@ -279,7 +274,7 @@ namespace RentalSystem
                 else
                 {
                     Console.WriteLine("Giriş başarısız. Tekrar deneyiniz.");
-
+                    return;
                 }
 
             }
@@ -373,12 +368,11 @@ namespace RentalSystem
                                 Console.WriteLine("Geçersiz fiyat girdiniz. Lütfen sadece sayı kullanınız (örn: 199.99).");
                             }
                         }
-                        ClothesController controller = new ClothesController();
-                        controller.save(name, description, stock, kategoriEnum, email, price);
+                        
+                        clothesController.save(name, description, stock, kategoriEnum, email, price);
                         break;
                     case "2":
-                        ClothesController clothesController = new ClothesController();
-                        clothesController.showList();
+                        showList(clothesController.getList());
                        
                         long clothId;
                         while (true)
@@ -418,13 +412,11 @@ namespace RentalSystem
                 switch (secim) 
                 {
                     case "1":
-                        RentController rent = new RentController();
-                        rent.showRequestRentList();
+                        showList(rentController.getListUnacceptedRents());
                         break;
                     case "2":
-                        RentController rentController = new RentController();
-                        rentController.showRequestRentList();
-                        
+                        showList(rentController.getListUnacceptedRents());
+
                         long rentId;
                         while (true)
                         {
@@ -443,9 +435,8 @@ namespace RentalSystem
                         rentController.confirm(rentId, email);
                         break;
                     case "3":
-                        RentController rentController1 = new RentController();
-                        rentController1.showRequestRentList();
-                        
+                        showList(rentController.getListUnacceptedRents());
+
                         long redRentId;
                         while (true)
                         {
@@ -461,7 +452,7 @@ namespace RentalSystem
                                 Console.WriteLine("Geçersiz ID girdiniz. Lütfen sadece rakam kullanınız.");
                             }
                         }
-                        rentController1.reddetme(redRentId, email);
+                        rentController.reddetme(redRentId, email);
                         break;
                     case "4":
                         return;
@@ -481,7 +472,6 @@ namespace RentalSystem
                 string input = Console.ReadLine();
                 Console.WriteLine("Şifre: ");
                 string password = Console.ReadLine();
-                UserController userController = new UserController();
                 User super = userController.superLogin(input, password);
                 if (super != null)
                 {
@@ -509,18 +499,16 @@ namespace RentalSystem
                 switch (secim)
                 {
                     case "1":
-                        UserController userController = new UserController();
-                        userController.showUserList();
+                        showList(userController.getUserList());
                         Console.WriteLine("Admin yapmak istediğiniz kullanıcının mailini giriniz.");
                         string userEmail = Console.ReadLine();
                         userController.saveAdmin(email, userEmail);
                         break;
                     case "2":
-                        UserController userController1 = new UserController();
-                        userController1.showAdminList();
+                        showList(userController.getAdminList());
                         Console.WriteLine("Adminliğini almak istediğiniz adminin mailini giriniz.");
                         string adminEmail = Console.ReadLine();
-                        userController1.removeAdmin(email, adminEmail);
+                        userController.removeAdmin(email, adminEmail);
                         break;
                     case "3":
                         return;
@@ -534,10 +522,16 @@ namespace RentalSystem
 
         static void kıyafetekle()
         {
-            ClothesController clothesController=new ClothesController();
-            clothesController.save("asd", "asdqweasd", 2, Category.Gömlek, "admin", 213.4);
-            clothesController.save("Keten", "asdqweasd", 6, Category.Gömlek, "admin", 213.4);
-
+            clothesController.save("Keten Gömlek", "Yazlık, nefes alan kumaş", 10, Category.Gömlek, "admin", 199.99);
+            clothesController.save("Şifon Elbise", "Hafif yapılı, yazlık elbise", 5, Category.Elbise, "admin", 349.50);
+            clothesController.save("Deri Ceket", "Hakiki deri, siyah ceket", 3, Category.Ceket, "admin", 899.00);
+            clothesController.save("Smokin Takım", "Özel günler için takım elbise", 2, Category.TakımElbise, "admin", 1299.99);
+            clothesController.save("Kareli Gömlek", "Pamuklu, günlük kullanım için uygun", 8, Category.Gömlek, "admin", 159.75);
+            clothesController.save("Kanvas Ceket", "Su geçirmez, açık hava etkinlikleri için", 4, Category.Ceket, "admin", 679.20);
+            clothesController.save("Saten Elbise", "Gece davetleri için şık elbise", 6, Category.Elbise, "admin", 749.99);
+            clothesController.save("Lacivert Takım", "İş ortamı için klasik takım elbise", 5, Category.TakımElbise, "admin", 1149.00);
+            clothesController.save("Oduncu Gömlek", "Kışlık, kalın kumaşlı gömlek", 7, Category.Gömlek, "admin", 189.00);
+            clothesController.save("Kadife Elbise", "Kış ayları için sıcak tutan elbise", 3, Category.Elbise, "admin", 399.90);
         }
         static void superEkle()
         {
@@ -553,6 +547,27 @@ namespace RentalSystem
         {
             UserController userController = new UserController();
             userController.save("asdqwe", "sadqesd", "asdqweasd", "12345", "user", Role.USER);
+        }
+        static void showList(List<Clothes> clothes)
+        {
+            for (int i = 0; i < clothes.Count; i++)
+            {
+                Console.WriteLine(clothes[i]);
+            }
+        }
+        static void showList(List<Rent> rents)
+        {
+            for (int i = 0; i < rents.Count; i++)
+            {
+                Console.WriteLine(rents[i]);
+            }
+        }
+        static void showList(List<User> users)
+        {
+            for (int i = 0; i < users.Count; i++)
+            {
+                Console.WriteLine(users[i]);
+            }
         }
     }
 

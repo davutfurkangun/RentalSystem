@@ -70,21 +70,14 @@ namespace RentalSystem.business.concrete
         {
             return _clothesContext.getClothesById(id);
         }
-        public void showList()
+        public List<Clothes> getList()
         {
-            List<Clothes> a = _clothesContext.getList();
-            for (int i = 0; i < a.Count; i++)
-            {
-                Console.WriteLine(a[i]);
-            }
+            return _clothesContext.getList();
         }
         public List<Clothes> getListByCategory(string category)
         {
             return _clothesContext.getListByCategory(category);
         }
-        public void showListByCategory(string category)
-        {
-            _clothesContext.showListByCategory(category);
-        }
+       
     }
 }

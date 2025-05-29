@@ -17,9 +17,23 @@ namespace RentalSystem.api
         {
             _rentService = new RentServiceImpl(new RentContext(),new ClothesServiceImpl(new ClothesContext(),new UserServiceImpl(new UserContext())),new UserServiceImpl(new UserContext()));
         }
+       
+        
+        public void confirm(long rentId, string email)
+        {
+            _rentService.confirm(rentId, email);
+        }
+        public void returnRents(long rentId)
+        {
+            _rentService.returnRents(rentId);
+        }
+        public void reddetme(long rentId, string email)
+        {
+            _rentService.reddetme(rentId, email);
+        }
         public void requestRent(long userId, long clothId, int kiralananGun)
         {
-            _rentService.requestRent(userId,clothId, kiralananGun);
+            _rentService.requestRent(userId, clothId, kiralananGun);
         }
         public List<Rent> getListByUserId(long userId)
         {
@@ -29,29 +43,14 @@ namespace RentalSystem.api
         {
             return _rentService.getListUnacceptedRents();
         }
-        public void confirm(long rentId, string email)
+        public List<Rent> getListKullaniciTalepleri(long userId)
         {
-            _rentService.confirm(rentId, email);
+            return _rentService.getListKullaniciTalepleri(userId);
         }
-        public void returnRents(long rentId)
+        public List<Rent> getListKullaniciIadesiYapılmamıs(long userId)
         {
-            _rentService.returnRents(rentId);
+            return _rentService.getListKullaniciIadesiYapılmamıs(userId);
         }
-        public void showList(List<Rent> a)
-        {
-            _rentService.showList(a);
-        }
-        public void showRequestRentList()
-        {
-            _rentService.showRequestRentList();
-        }
-        public void showListByUserId(long userId)
-        {
-            _rentService.showListByUserId(userId);
-        }
-        public void reddetme(long rentId, string email)
-        {
-            _rentService.reddetme(rentId, email);
-        }
+
     }
 }

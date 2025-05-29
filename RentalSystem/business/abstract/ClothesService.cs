@@ -11,10 +11,9 @@ namespace RentalSystem.business.@abstract
     internal interface ClothesService
     {
         public void save(string name, string description, int stock, Category category,string kayitYapanEmail,double price);
-        public Clothes getClothesById(long id);
         public void delete(string adminMail, long clothId);
-        public void showList();
+        public Clothes getClothesById(long id);
         public List<Clothes> getListByCategory(string category);
-        public void showListByCategory(string category);
+        public List<Clothes> getList();
     }
 }

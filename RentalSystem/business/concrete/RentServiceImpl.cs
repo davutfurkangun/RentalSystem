@@ -52,14 +52,6 @@ namespace RentalSystem.business.concrete
             }
 
         }
-        public List<Rent> getListByUserId(long userId) 
-        {
-            return _rentContext.getListByUserId(userId);
-        }
-        public List<Rent> getListUnacceptedRents()
-        {
-            return _rentContext.getListUnacceptedRents().Where(x=>!x.OnaylandiMi).ToList();
-        }
         public void confirm(long rentId,string email)
         {
             Rent rent=_rentContext.getRequestRentById(rentId);
@@ -119,36 +111,6 @@ namespace RentalSystem.business.concrete
                 kiralama.İadeEdildiMi = rent.İadeEdildiMi;
             }
         }
-        public void showList(List<Rent> a)
-        {
-           a = _rentContext.getList();
-            for (int i = 0; i < a.Count; i++)
-            {
-                Console.WriteLine(a[i]);
-            }
-        }
-        public void showRequestRentList()
-        {
-            if (getListUnacceptedRents().Count>0)
-            {
-                for (int i = 0; i < getListUnacceptedRents().Count; i++)
-                {
-                    Console.WriteLine(getListUnacceptedRents()[i]);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Bekleyen talep bulunmamaktadır.");
-            }
-        }
-        public void showListByUserId(long userId)
-        {
-
-            for (int i = 0; i < _rentContext.getListByUserId(userId).Count; i++)
-            {
-                Console.WriteLine(_rentContext.getListByUserId(userId)[i]);
-            }
-        }
         public void reddetme(long rentId, string email)
         {
             Rent rent = _rentContext.getRequestRentById(rentId);
@@ -176,7 +138,22 @@ namespace RentalSystem.business.concrete
                 Console.WriteLine("Kiralama bulunamadı.");
             }
         }
-
+        public List<Rent> getListKullaniciTalepleri(long userId)
+        {
+            return _rentContext.getListKullaniciTalepleri(userId);
+        }
+        public List<Rent> getListKullaniciIadesiYapılmamıs(long userId)
+        {
+            return _rentContext.getListKullaniciIadesiYapılmamıs(userId);
+        }
+        public List<Rent> getListByUserId(long userId)
+        {
+            return _rentContext.getListByUserId(userId);
+        }
+        public List<Rent> getListUnacceptedRents()
+        {
+            return _rentContext.getListUnacceptedRents().Where(x => !x.OnaylandiMi).ToList();
+        }
 
     }
 }

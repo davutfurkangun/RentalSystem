@@ -18,29 +18,27 @@ namespace RentalSystem.api
         {
             _clothesService = new ClothesServiceImpl(new ClothesContext(),new UserServiceImpl(new UserContext()));
         }
+
+
         public void save(string name, string description, int stock, Category category,string kayitYapanEmail,double price)
         {
             _clothesService.save(name, description, stock, category, kayitYapanEmail,price);
-        }
-        public Clothes getClothesById(long id)
-        {
-            return _clothesService.getClothesById(id);
         }
         public void delete(string adminMail, long clothId)
         {
             _clothesService.delete(adminMail, clothId);
         }
-        public void showList()
+        public Clothes getClothesById(long id)
         {
-            _clothesService.showList();
+            return _clothesService.getClothesById(id);
         }
         public List<Clothes> getListByCategory(string category)
         {
             return _clothesService.getListByCategory(category);
         }
-        public void showListByCategory(string category)
+        public List<Clothes> getList()
         {
-            _clothesService.showListByCategory(category);
+            return _clothesService.getList();
         }
     }
 }
